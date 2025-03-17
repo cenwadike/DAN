@@ -300,7 +300,9 @@ app.post("/create-npc-template", limiter, authenticate, async (req, res) => {
         if (!templateId || !name || !baseBehavior)
             throw new Error("Missing required fields");
         const caller = serverWallet.publicKey;
-        const txId = await new anchor_1.Program(idl, programId, new anchor_1.AnchorProvider(connection, {}, {})).methods
+        const provider = new anchor_1.AnchorProvider(connection, { publicKey: serverWallet.publicKey }, { commitment: "confirmed" });
+        const program = new anchor_1.Program(idl, programId, provider);
+        const txId = program.methods
             .createTemplate(templateId, name, baseBehavior)
             .accounts({
             template: getPda("template", caller, templateId),
@@ -340,13 +342,13 @@ app.post("/update-npc", limiter, authenticate, async (req, res) => {
         const statePda = getPda("state", caller, npcId, gameId);
         let memory = "";
         try {
-            const provider = new anchor_1.AnchorProvider(connection, {}, {});
+            const provider = new anchor_1.AnchorProvider(connection, { publicKey: serverWallet.publicKey }, { commitment: "confirmed" });
             const program = new anchor_1.Program(idl, programId, provider);
             const memoryAccount = await program.account.memory.fetch(memoryPda);
             memory = memoryAccount.data;
         }
         catch (e) {
-            const txId = await new anchor_1.Program(idl, programId, new anchor_1.AnchorProvider(connection, {}, {})).methods
+            const txId = await new anchor_1.Program(idl, programId, new anchor_1.AnchorProvider(connection, { publicKey: serverWallet.publicKey }, { commitment: "confirmed" })).methods
                 .initNpc(npcId, gameId, templateId)
                 .accounts({
                 memory: memoryPda,
@@ -368,7 +370,7 @@ app.post("/update-npc", limiter, authenticate, async (req, res) => {
             temperature: 0.7,
         });
         const [dialogue, behavior] = response.choices[0].message.content.split("|");
-        const tx = new web3_js_1.Transaction().add(await new anchor_1.Program(idl, programId, new anchor_1.AnchorProvider(connection, {}, {})).methods
+        const tx = new web3_js_1.Transaction().add(await new anchor_1.Program(idl, programId, new anchor_1.AnchorProvider(connection, { publicKey: serverWallet.publicKey }, { commitment: "confirmed" })).methods
             .updateNpc(action, dialogue, behavior)
             .accounts({
             memory: memoryPda,
@@ -390,7 +392,7 @@ app.get("/get-npc-state", limiter, async (req, res) => {
             throw new Error("Missing required query parameters");
         const caller = serverWallet.publicKey;
         const statePda = getPda("state", caller, npcId, gameId);
-        const provider = new anchor_1.AnchorProvider(connection, {}, {});
+        const provider = new anchor_1.AnchorProvider(connection, { publicKey: serverWallet.publicKey }, { commitment: "confirmed" });
         const program = new anchor_1.Program(idl, programId, provider);
         const state = await program.account.state.fetch(statePda);
         res.json({ dialogue: state.dialogue, behavior: state.behavior });
@@ -415,7 +417,7 @@ app.post("/close-payment-channel", limiter, authenticate, async (req, res) => {
             logger.warn(`Unauthorized attempt to close channel ${channelId} by user ${req.userId}`);
             return handleError(res, new Error("Unauthorized"), "Only the channel creator can close this channel", 403);
         }
-        const program = new anchor_1.Program(idl, programId, new anchor_1.AnchorProvider(connection, {}, {}));
+        const program = new anchor_1.Program(idl, programId, new anchor_1.AnchorProvider(connection, { publicKey: serverWallet.publicKey }, { commitment: "confirmed" }));
         const templatePda = getPda("template", caller, channel.templateId);
         const template = await program.account.template.fetch(templatePda);
         const txId = await program.methods

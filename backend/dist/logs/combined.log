@@ -16,3 +16,6 @@
 {"level":"error","message":"Failed to create NPC template: Cannot read properties of undefined (reading 'kind')","timestamp":"2025-03-17T14:36:55.912Z"}
 {"level":"info","message":"Running periodic channel closure","timestamp":"2025-03-17T15:13:50.213Z"}
 {"level":"error","message":"Blockchain polling failed: fetch failed","timestamp":"2025-03-17T15:26:10.631Z"}
+{"level":"info","message":"DAN API running on http://localhost:8000","timestamp":"2025-03-17T15:46:31.140Z"}
+{"level":"info","message":"DAN API running on http://localhost:8000","timestamp":"2025-03-17T15:48:37.792Z"}
+{"level":"info","message":"DAN API running on http://localhost:8000","timestamp":"2025-03-17T15:59:49.095Z"}
