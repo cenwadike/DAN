@@ -1,0 +1,942 @@
+{
+  "address": "FKehpJ8SZkr7XW4tysqoP7N6eLvpG3WASiXZa7JTjWUd",
+  "metadata": {
+    "name": "contract",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "claim_refund",
+      "discriminator": [
+        15,
+        16,
+        30,
+        161,
+        255,
+        228,
+        97,
+        60
+      ],
+      "accounts": [
+        {
+          "name": "channel",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  104,
+                  97,
+                  110,
+                  110,
+                  101,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "caller"
+              },
+              {
+                "kind": "arg",
+                "path": "channel_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "channel_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "close_channel",
+      "discriminator": [
+        0,
+        104,
+        36,
+        1,
+        66,
+        0,
+        103,
+        157
+      ],
+      "accounts": [
+        {
+          "name": "channel",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  104,
+                  97,
+                  110,
+                  110,
+                  101,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "channel.owner",
+                "account": "PaymentChannel"
+              },
+              {
+                "kind": "arg",
+                "path": "channel_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "template_creator",
+          "writable": true
+        },
+        {
+          "name": "channel_owner",
+          "writable": true
+        },
+        {
+          "name": "channel_counter_party",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "channel_id",
+          "type": "string"
+        },
+        {
+          "name": "secret",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "final_balance",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "create_template",
+      "discriminator": [
+        245,
+        51,
+        247,
+        234,
+        31,
+        9,
+        40,
+        227
+      ],
+      "accounts": [
+        {
+          "name": "template",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  101,
+                  109,
+                  112,
+                  108,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "template_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "template_id",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "base_behavior",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "init_npc",
+      "discriminator": [
+        28,
+        234,
+        75,
+        223,
+        95,
+        124,
+        84,
+        64
+      ],
+      "accounts": [
+        {
+          "name": "memory",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  109,
+                  111,
+                  114,
+                  121
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "caller"
+              },
+              {
+                "kind": "arg",
+                "path": "npc_id"
+              },
+              {
+                "kind": "arg",
+                "path": "game_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "state",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "caller"
+              },
+              {
+                "kind": "arg",
+                "path": "npc_id"
+              },
+              {
+                "kind": "arg",
+                "path": "game_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "template",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  101,
+                  109,
+                  112,
+                  108,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "template_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "npc_id",
+          "type": "string"
+        },
+        {
+          "name": "game_id",
+          "type": "string"
+        },
+        {
+          "name": "template_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [],
+      "args": []
+    },
+    {
+      "name": "open_channel",
+      "discriminator": [
+        91,
+        45,
+        253,
+        71,
+        140,
+        166,
+        107,
+        109
+      ],
+      "accounts": [
+        {
+          "name": "channel",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  104,
+                  97,
+                  110,
+                  110,
+                  101,
+                  108
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "caller"
+              },
+              {
+                "kind": "arg",
+                "path": "channel_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "caller",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "template",
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  101,
+                  109,
+                  112,
+                  108,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "arg",
+                "path": "template_id"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "channel_id",
+          "type": "string"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "hashlock",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "timelock",
+          "type": "u64"
+        },
+        {
+          "name": "template_id",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "update_npc",
+      "discriminator": [
+        43,
+        197,
+        89,
+        233,
+        109,
+        154,
+        249,
+        98
+      ],
+      "accounts": [
+        {
+          "name": "memory",
+          "writable": true
+        },
+        {
+          "name": "state",
+          "writable": true
+        },
+        {
+          "name": "caller",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "action",
+          "type": "string"
+        },
+        {
+          "name": "dialogue",
+          "type": "string"
+        },
+        {
+          "name": "behavior",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Memory",
+      "discriminator": [
+        14,
+        198,
+        85,
+        183,
+        235,
+        32,
+        242,
+        208
+      ]
+    },
+    {
+      "name": "PaymentChannel",
+      "discriminator": [
+        53,
+        102,
+        116,
+        128,
+        150,
+        23,
+        170,
+        138
+      ]
+    },
+    {
+      "name": "State",
+      "discriminator": [
+        216,
+        146,
+        107,
+        94,
+        104,
+        75,
+        182,
+        177
+      ]
+    },
+    {
+      "name": "Template",
+      "discriminator": [
+        43,
+        26,
+        88,
+        69,
+        69,
+        96,
+        9,
+        79
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "ChannelClosed",
+      "discriminator": [
+        119,
+        198,
+        23,
+        254,
+        216,
+        124,
+        84,
+        16
+      ]
+    },
+    {
+      "name": "ChannelOpened",
+      "discriminator": [
+        253,
+        213,
+        255,
+        96,
+        31,
+        188,
+        47,
+        170
+      ]
+    },
+    {
+      "name": "NpcInitialized",
+      "discriminator": [
+        115,
+        247,
+        203,
+        79,
+        21,
+        84,
+        153,
+        6
+      ]
+    },
+    {
+      "name": "NpcUpdated",
+      "discriminator": [
+        93,
+        3,
+        112,
+        188,
+        209,
+        193,
+        197,
+        7
+      ]
+    },
+    {
+      "name": "RefundClaimed",
+      "discriminator": [
+        136,
+        64,
+        242,
+        99,
+        4,
+        244,
+        208,
+        130
+      ]
+    },
+    {
+      "name": "TemplateCreated",
+      "discriminator": [
+        182,
+        124,
+        104,
+        44,
+        8,
+        70,
+        124,
+        46
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "InvalidSecret",
+      "msg": "Invalid secret provided"
+    },
+    {
+      "code": 6001,
+      "name": "NotOwner",
+      "msg": "Not the channel owner"
+    },
+    {
+      "code": 6002,
+      "name": "TimelockExpired",
+      "msg": "Timelock has expired"
+    },
+    {
+      "code": 6003,
+      "name": "TimelockNotExpired",
+      "msg": "Timelock has not yet expired"
+    },
+    {
+      "code": 6004,
+      "name": "NotCreator",
+      "msg": "Only the NPC creator can update this NPC"
+    },
+    {
+      "code": 6005,
+      "name": "WrongChannelOwner",
+      "msg": "Incorrect channel owner account"
+    },
+    {
+      "code": 6006,
+      "name": "WrongChannelCounterParty",
+      "msg": "Incorrect channel counter-party account"
+    },
+    {
+      "code": 6007,
+      "name": "WrongTemplateCreator",
+      "msg": "Incorrect template creator account"
+    }
+  ],
+  "types": [
+    {
+      "name": "ChannelClosed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "channel_id",
+            "type": "string"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "fee",
+            "type": "u64"
+          },
+          {
+            "name": "royalty",
+            "type": "u64"
+          },
+          {
+            "name": "refund",
+            "type": "u64"
+          },
+          {
+            "name": "template_creator",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ChannelOpened",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "channel_id",
+            "type": "string"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "hashlock",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "timelock",
+            "type": "u64"
+          },
+          {
+            "name": "template_creator",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Memory",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "data",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NpcInitialized",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "npc_id",
+            "type": "string"
+          },
+          {
+            "name": "game_id",
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "template_id",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NpcUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "npc_id",
+            "type": "string"
+          },
+          {
+            "name": "game_id",
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "action",
+            "type": "string"
+          },
+          {
+            "name": "dialogue",
+            "type": "string"
+          },
+          {
+            "name": "behavior",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PaymentChannel",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "counter_party",
+            "type": "pubkey"
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          },
+          {
+            "name": "hashlock",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "timelock",
+            "type": "u64"
+          },
+          {
+            "name": "template_creator",
+            "type": "pubkey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RefundClaimed",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "channel_id",
+            "type": "string"
+          },
+          {
+            "name": "owner",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "State",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "npc_id",
+            "type": "string"
+          },
+          {
+            "name": "game_id",
+            "type": "string"
+          },
+          {
+            "name": "dialogue",
+            "type": "string"
+          },
+          {
+            "name": "behavior",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Template",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "base_behavior",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TemplateCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "template_id",
+            "type": "string"
+          },
+          {
+            "name": "creator",
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "base_behavior",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "CommonJS",
+      "outDir": "./dist",           // Output directory for compiled JS
+      "rootDir": ".",              // Source directory
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true    // For require("./idl.json")
+    },
+    "include": ["server.ts"],      // Files to compile
+    "exclude": ["node_modules"]
+}
