@@ -39,6 +39,13 @@ It combines a REST API, Sonic smart contract, and Hashed Time Lock (HTLC) paymen
 
 ## Steps to Test the APIs Manually
 
+### Install dependencies 
+
+- Run this command 
+```bash
+npm install
+```
+
 ### Start the Server:
 
 - Run the server: `npm run start`.
@@ -141,7 +148,7 @@ It combines a REST API, Sonic smart contract, and Hashed Time Lock (HTLC) paymen
 
 ```bash
     {
-    "error": "NPC state not found"
+        "error": "NPC state not found"
     }
 ```
 
