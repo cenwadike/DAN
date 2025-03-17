@@ -31,9 +31,9 @@ It combines a REST API, Sonic smart contract, and Hashed Time Lock (HTLC) paymen
     ```bash
         SOLANA_RPC_URL=https://api.testnet.sonic.game/
         PROGRAM_ID=FKehpJ8SZkr7XW4tysqoP7N6eLvpG3WASiXZa7JTjWUd
-        OPENAI_API_KEY=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
+        OPENAI_API_KEY=OpenAI_API_Key
         FEE_ACCOUNT=4GK6rjy5EuuLJ4Xo4fuVjtf7LabxVq2QSJDx3rpqMcHv
-        SERVER_SECRET_KEY=YourPrivateKey
+        SERVER_SECRET_KEY=Your_Private_Key
         PORT=8000
     ```
 
