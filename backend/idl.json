@@ -1,205 +1,34 @@
 {
-  "address": "FKehpJ8SZkr7XW4tysqoP7N6eLvpG3WASiXZa7JTjWUd",
-  "metadata": {
-    "name": "contract",
-    "version": "0.1.0",
-    "spec": "0.1.0",
-    "description": "Created with Anchor"
-  },
+  "version": "0.1.0",
+  "name": "contract",
   "instructions": [
     {
-      "name": "claim_refund",
-      "discriminator": [
-        15,
-        16,
-        30,
-        161,
-        255,
-        228,
-        97,
-        60
-      ],
-      "accounts": [
-        {
-          "name": "channel",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  99,
-                  104,
-                  97,
-                  110,
-                  110,
-                  101,
-                  108
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "caller"
-              },
-              {
-                "kind": "arg",
-                "path": "channel_id"
-              }
-            ]
-          }
-        },
-        {
-          "name": "caller",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
-      ],
-      "args": [
-        {
-          "name": "channel_id",
-          "type": "string"
-        }
-      ]
+      "name": "initialize",
+      "accounts": [],
+      "args": []
     },
     {
-      "name": "close_channel",
-      "discriminator": [
-        0,
-        104,
-        36,
-        1,
-        66,
-        0,
-        103,
-        157
-      ],
-      "accounts": [
-        {
-          "name": "channel",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  99,
-                  104,
-                  97,
-                  110,
-                  110,
-                  101,
-                  108
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "channel.owner",
-                "account": "PaymentChannel"
-              },
-              {
-                "kind": "arg",
-                "path": "channel_id"
-              }
-            ]
-          }
-        },
-        {
-          "name": "caller",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "template_creator",
-          "writable": true
-        },
-        {
-          "name": "channel_owner",
-          "writable": true
-        },
-        {
-          "name": "channel_counter_party",
-          "writable": true
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
-        }
-      ],
-      "args": [
-        {
-          "name": "channel_id",
-          "type": "string"
-        },
-        {
-          "name": "secret",
-          "type": {
-            "array": [
-              "u8",
-              32
-            ]
-          }
-        },
-        {
-          "name": "final_balance",
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "create_template",
-      "discriminator": [
-        245,
-        51,
-        247,
-        234,
-        31,
-        9,
-        40,
-        227
-      ],
+      "name": "createTemplate",
       "accounts": [
         {
           "name": "template",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  116,
-                  101,
-                  109,
-                  112,
-                  108,
-                  97,
-                  116,
-                  101
-                ]
-              },
-              {
-                "kind": "arg",
-                "path": "template_id"
-              }
-            ]
-          }
+          "isMut": true,
+          "isSigner": false
         },
         {
           "name": "caller",
-          "writable": true,
-          "signer": true
+          "isMut": true,
+          "isSigner": true
         },
         {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
         }
       ],
       "args": [
         {
-          "name": "template_id",
+          "name": "templateId",
           "type": "string"
         },
         {
@@ -207,227 +36,121 @@
           "type": "string"
         },
         {
-          "name": "base_behavior",
+          "name": "baseBehavior",
           "type": "string"
         }
       ]
     },
     {
-      "name": "init_npc",
-      "discriminator": [
-        28,
-        234,
-        75,
-        223,
-        95,
-        124,
-        84,
-        64
-      ],
+      "name": "initNpc",
       "accounts": [
         {
           "name": "memory",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  109,
-                  101,
-                  109,
-                  111,
-                  114,
-                  121
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "caller"
-              },
-              {
-                "kind": "arg",
-                "path": "npc_id"
-              },
-              {
-                "kind": "arg",
-                "path": "game_id"
-              }
-            ]
-          }
+          "isMut": true,
+          "isSigner": false
         },
         {
           "name": "state",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  115,
-                  116,
-                  97,
-                  116,
-                  101
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "caller"
-              },
-              {
-                "kind": "arg",
-                "path": "npc_id"
-              },
-              {
-                "kind": "arg",
-                "path": "game_id"
-              }
-            ]
-          }
+          "isMut": true,
+          "isSigner": false
         },
         {
           "name": "template",
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  116,
-                  101,
-                  109,
-                  112,
-                  108,
-                  97,
-                  116,
-                  101
-                ]
-              },
-              {
-                "kind": "arg",
-                "path": "template_id"
-              }
-            ]
-          }
+          "isMut": false,
+          "isSigner": false
         },
         {
           "name": "caller",
-          "writable": true,
-          "signer": true
+          "isMut": true,
+          "isSigner": true
         },
         {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
         }
       ],
       "args": [
         {
-          "name": "npc_id",
+          "name": "npcId",
           "type": "string"
         },
         {
-          "name": "game_id",
+          "name": "gameId",
           "type": "string"
         },
         {
-          "name": "template_id",
+          "name": "templateId",
           "type": "string"
         }
       ]
     },
     {
-      "name": "initialize",
-      "discriminator": [
-        175,
-        175,
-        109,
-        31,
-        13,
-        152,
-        155,
-        237
-      ],
-      "accounts": [],
-      "args": []
-    },
-    {
-      "name": "open_channel",
-      "discriminator": [
-        91,
-        45,
-        253,
-        71,
-        140,
-        166,
-        107,
-        109
-      ],
+      "name": "updateNpc",
       "accounts": [
         {
-          "name": "channel",
-          "writable": true,
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  99,
-                  104,
-                  97,
-                  110,
-                  110,
-                  101,
-                  108
-                ]
-              },
-              {
-                "kind": "account",
-                "path": "caller"
-              },
-              {
-                "kind": "arg",
-                "path": "channel_id"
-              }
-            ]
-          }
+          "name": "memory",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
         },
         {
           "name": "caller",
-          "writable": true,
-          "signer": true
-        },
-        {
-          "name": "template",
-          "pda": {
-            "seeds": [
-              {
-                "kind": "const",
-                "value": [
-                  116,
-                  101,
-                  109,
-                  112,
-                  108,
-                  97,
-                  116,
-                  101
-                ]
-              },
-              {
-                "kind": "arg",
-                "path": "template_id"
-              }
-            ]
-          }
-        },
-        {
-          "name": "system_program",
-          "address": "11111111111111111111111111111111"
+          "isMut": false,
+          "isSigner": true
         }
       ],
       "args": [
         {
-          "name": "channel_id",
+          "name": "action",
+          "type": "string"
+        },
+        {
+          "name": "dialogue",
+          "type": "string"
+        },
+        {
+          "name": "behavior",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "openChannel",
+      "accounts": [
+        {
+          "name": "channel",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "counterParty",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "template",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "channelId",
           "type": "string"
         },
         {
@@ -448,48 +171,82 @@
           "type": "u64"
         },
         {
-          "name": "template_id",
+          "name": "templateId",
           "type": "string"
         }
       ]
     },
     {
-      "name": "update_npc",
-      "discriminator": [
-        43,
-        197,
-        89,
-        233,
-        109,
-        154,
-        249,
-        98
-      ],
+      "name": "closeChannel",
       "accounts": [
         {
-          "name": "memory",
-          "writable": true
-        },
-        {
-          "name": "state",
-          "writable": true
+          "name": "channel",
+          "isMut": true,
+          "isSigner": false
         },
         {
           "name": "caller",
-          "signer": true
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "templateCreator",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "channelOwner",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "channelCounterParty",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
         }
       ],
       "args": [
         {
-          "name": "action",
+          "name": "channelId",
           "type": "string"
         },
         {
-          "name": "dialogue",
+          "name": "secret",
           "type": "string"
         },
         {
-          "name": "behavior",
+          "name": "finalBalance",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimRefund",
+      "accounts": [
+        {
+          "name": "channel",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "caller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "channelId",
           "type": "string"
         }
       ]
@@ -498,134 +255,285 @@
   "accounts": [
     {
       "name": "Memory",
-      "discriminator": [
-        14,
-        198,
-        85,
-        183,
-        235,
-        32,
-        242,
-        208
-      ]
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "data",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
       "name": "PaymentChannel",
-      "discriminator": [
-        53,
-        102,
-        116,
-        128,
-        150,
-        23,
-        170,
-        138
-      ]
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "owner",
+            "type": "publicKey"
+          },
+          {
+            "name": "counterParty",
+            "type": "publicKey"
+          },
+          {
+            "name": "balance",
+            "type": "u64"
+          },
+          {
+            "name": "hashlock",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "timelock",
+            "type": "u64"
+          },
+          {
+            "name": "templateCreator",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
     },
     {
       "name": "State",
-      "discriminator": [
-        216,
-        146,
-        107,
-        94,
-        104,
-        75,
-        182,
-        177
-      ]
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "npcId",
+            "type": "string"
+          },
+          {
+            "name": "gameId",
+            "type": "string"
+          },
+          {
+            "name": "dialogue",
+            "type": "string"
+          },
+          {
+            "name": "behavior",
+            "type": "string"
+          }
+        ]
+      }
     },
     {
       "name": "Template",
-      "discriminator": [
-        43,
-        26,
-        88,
-        69,
-        69,
-        96,
-        9,
-        79
-      ]
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "creator",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "baseBehavior",
+            "type": "string"
+          }
+        ]
+      }
     }
   ],
   "events": [
     {
       "name": "ChannelClosed",
-      "discriminator": [
-        119,
-        198,
-        23,
-        254,
-        216,
-        124,
-        84,
-        16
+      "fields": [
+        {
+          "name": "channelId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "fee",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "royalty",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "refund",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "templateCreator",
+          "type": "publicKey",
+          "index": false
+        }
       ]
     },
     {
       "name": "ChannelOpened",
-      "discriminator": [
-        253,
-        213,
-        255,
-        96,
-        31,
-        188,
-        47,
-        170
+      "fields": [
+        {
+          "name": "channelId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "hashlock",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          },
+          "index": false
+        },
+        {
+          "name": "timelock",
+          "type": "u64",
+          "index": false
+        },
+        {
+          "name": "templateCreator",
+          "type": "publicKey",
+          "index": false
+        }
       ]
     },
     {
       "name": "NpcInitialized",
-      "discriminator": [
-        115,
-        247,
-        203,
-        79,
-        21,
-        84,
-        153,
-        6
+      "fields": [
+        {
+          "name": "npcId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "gameId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "creator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "templateId",
+          "type": "string",
+          "index": false
+        }
       ]
     },
     {
       "name": "NpcUpdated",
-      "discriminator": [
-        93,
-        3,
-        112,
-        188,
-        209,
-        193,
-        197,
-        7
+      "fields": [
+        {
+          "name": "npcId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "gameId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "creator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "action",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "dialogue",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "behavior",
+          "type": "string",
+          "index": false
+        }
       ]
     },
     {
       "name": "RefundClaimed",
-      "discriminator": [
-        136,
-        64,
-        242,
-        99,
-        4,
-        244,
-        208,
-        130
+      "fields": [
+        {
+          "name": "channelId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "owner",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "amount",
+          "type": "u64",
+          "index": false
+        }
       ]
     },
     {
       "name": "TemplateCreated",
-      "discriminator": [
-        182,
-        124,
-        104,
-        44,
-        8,
-        70,
-        124,
-        46
+      "fields": [
+        {
+          "name": "templateId",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "creator",
+          "type": "publicKey",
+          "index": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "index": false
+        },
+        {
+          "name": "baseBehavior",
+          "type": "string",
+          "index": false
+        }
       ]
     }
   ],
@@ -669,274 +577,14 @@
       "code": 6007,
       "name": "WrongTemplateCreator",
       "msg": "Incorrect template creator account"
+    },
+    {
+      "code": 6008,
+      "name": "InsufficientFunds",
+      "msg": "Balance must me more than 0."
     }
   ],
-  "types": [
-    {
-      "name": "ChannelClosed",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "channel_id",
-            "type": "string"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "fee",
-            "type": "u64"
-          },
-          {
-            "name": "royalty",
-            "type": "u64"
-          },
-          {
-            "name": "refund",
-            "type": "u64"
-          },
-          {
-            "name": "template_creator",
-            "type": "pubkey"
-          }
-        ]
-      }
-    },
-    {
-      "name": "ChannelOpened",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "channel_id",
-            "type": "string"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "amount",
-            "type": "u64"
-          },
-          {
-            "name": "hashlock",
-            "type": {
-              "array": [
-                "u8",
-                32
-              ]
-            }
-          },
-          {
-            "name": "timelock",
-            "type": "u64"
-          },
-          {
-            "name": "template_creator",
-            "type": "pubkey"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Memory",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "data",
-            "type": "string"
-          }
-        ]
-      }
-    },
-    {
-      "name": "NpcInitialized",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "npc_id",
-            "type": "string"
-          },
-          {
-            "name": "game_id",
-            "type": "string"
-          },
-          {
-            "name": "creator",
-            "type": "pubkey"
-          },
-          {
-            "name": "template_id",
-            "type": "string"
-          }
-        ]
-      }
-    },
-    {
-      "name": "NpcUpdated",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "npc_id",
-            "type": "string"
-          },
-          {
-            "name": "game_id",
-            "type": "string"
-          },
-          {
-            "name": "creator",
-            "type": "pubkey"
-          },
-          {
-            "name": "action",
-            "type": "string"
-          },
-          {
-            "name": "dialogue",
-            "type": "string"
-          },
-          {
-            "name": "behavior",
-            "type": "string"
-          }
-        ]
-      }
-    },
-    {
-      "name": "PaymentChannel",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "counter_party",
-            "type": "pubkey"
-          },
-          {
-            "name": "balance",
-            "type": "u64"
-          },
-          {
-            "name": "hashlock",
-            "type": {
-              "array": [
-                "u8",
-                32
-              ]
-            }
-          },
-          {
-            "name": "timelock",
-            "type": "u64"
-          },
-          {
-            "name": "template_creator",
-            "type": "pubkey"
-          }
-        ]
-      }
-    },
-    {
-      "name": "RefundClaimed",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "channel_id",
-            "type": "string"
-          },
-          {
-            "name": "owner",
-            "type": "pubkey"
-          },
-          {
-            "name": "amount",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "State",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "creator",
-            "type": "pubkey"
-          },
-          {
-            "name": "npc_id",
-            "type": "string"
-          },
-          {
-            "name": "game_id",
-            "type": "string"
-          },
-          {
-            "name": "dialogue",
-            "type": "string"
-          },
-          {
-            "name": "behavior",
-            "type": "string"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Template",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "creator",
-            "type": "pubkey"
-          },
-          {
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "name": "base_behavior",
-            "type": "string"
-          }
-        ]
-      }
-    },
-    {
-      "name": "TemplateCreated",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "template_id",
-            "type": "string"
-          },
-          {
-            "name": "creator",
-            "type": "pubkey"
-          },
-          {
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "name": "base_behavior",
-            "type": "string"
-          }
-        ]
-      }
-    }
-  ]
+  "metadata": {
+    "address": "FKehpJ8SZkr7XW4tysqoP7N6eLvpG3WASiXZa7JTjWUd"
+  }
 }

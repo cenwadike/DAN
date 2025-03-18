@@ -15,16 +15,12 @@ pub fn process_claim_refund(ctx: Context<ClaimRefund>, channel_id: String) -> Re
         ErrorCode::WrongChannelCounterParty
     );
 
-    anchor_lang::system_program::transfer(
-        CpiContext::new(
-            ctx.accounts.system_program.to_account_info(),
-            anchor_lang::system_program::Transfer {
-                from: channel.to_account_info(),
-                to: ctx.accounts.caller.to_account_info(),
-            },
-        ),
-        channel.balance,
-    )?;
+    let lamports = channel.to_account_info().lamports();
+    require!(lamports > 0, ErrorCode::InsufficientFunds);
+
+    // Transfer all lamports back to caller
+    **channel.to_account_info().try_borrow_mut_lamports()? -= lamports;
+    **ctx.accounts.caller.to_account_info().try_borrow_mut_lamports()? += lamports;
 
     emit!(RefundClaimed {
         channel_id,

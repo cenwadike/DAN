@@ -68,7 +68,7 @@ pub mod contract {
     pub fn close_channel(
         ctx: Context<CloseChannel>,
         channel_id: String,
-        secret: [u8; 32],
+        secret: String,
         final_balance: u64,
     ) -> Result<()> {
         process_close_channel(ctx, channel_id, secret, final_balance)

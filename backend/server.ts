@@ -176,11 +176,10 @@ const closeChannels = async () => {
                 const channelPda = getPda("channel", caller, channelId);
 
                 await program.methods
-                    .closeChannel(channelId, [...Buffer.from(channel.secret, "hex")], channel.balance)
+                    .closeChannel(channelId, channel.secret, channel.balance)
                     .accounts({
                         channel: channelPda,
                         caller,
-                        feeAccount,
                         templateCreator: template.creator,
                         channelOwner: feeAccount,
                         channelCounterParty: new PublicKey(channel.userId),
@@ -255,8 +254,8 @@ const pollBlockchain = async () => {
                         .accounts({
                             channel: getPda("channel", serverWallet.publicKey, channelId),
                             caller: serverWallet.publicKey,
+                            counterParty: new PublicKey(userId),
                             template: getPda("template", serverWallet.publicKey, templateId),
-                            systemProgram: SystemProgram.programId,
                         })
                         .rpc()
 
@@ -323,7 +322,6 @@ app.post("/create-npc-template", limiter, authenticate, async (req: Request, res
             .accounts({
                 template: getPda("template", caller, templateId),
                 caller,
-                systemProgram: SystemProgram.programId,
             })
             .rpc()
         res.json({ transaction: txId });
@@ -379,7 +377,6 @@ app.post("/update-npc", limiter, authenticate, async (req: Request, res: Respons
                     state: statePda,
                     template: getPda("template", caller, templateId),
                     caller,
-                    systemProgram: SystemProgram.programId,
                 })
                 .rpc();
 
@@ -458,12 +455,13 @@ app.post("/close-payment-channel", limiter, authenticate, async (req: Request, r
         const template = await program.account.template.fetch(templatePda) as any as NPCTemplate;
 
         const txId = await program.methods
-            .closeChannel(channelId, [...Buffer.from(channel.secret, "hex")], channel.balance)
+            .closeChannel(channelId, channel.secret, channel.balance)
             .accounts({
                 channel: getPda("channel", caller, channelId),
                 caller,
-                feeAccount,
                 templateCreator: template.creator,
+                channelOwner: feeAccount,
+                channelCounterParty: new PublicKey(channel.userId),
             })
             .rpc()
         delete channels[channelId];

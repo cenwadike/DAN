@@ -29,4 +29,5 @@ pub struct PaymentChannel {
     pub hashlock: [u8; 32],
     pub timelock: u64,
     pub template_creator: Pubkey,
+    pub bump: u8,
 }

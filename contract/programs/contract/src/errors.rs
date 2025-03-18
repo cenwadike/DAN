@@ -18,4 +18,6 @@ pub enum ErrorCode {
     WrongChannelCounterParty,
     #[msg("Incorrect template creator account")]
     WrongTemplateCreator,
+    #[msg("Balance must me more than 0.")]
+    InsufficientFunds,
 }

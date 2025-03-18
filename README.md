@@ -20,8 +20,10 @@ It combines a REST API, Sonic smart contract, and Hashed Time Lock (HTLC) paymen
 ## How to test
 
 ### Install the following:
-- NPM (latest version)
-- Node (latest version)
+- Anchor (v0.29.0)
+- Solana CLI (v1.18.26)
+- NPM (v11.1.0)
+- Node (v23.6.0)
 - curl
 
 ### Update the .env file
@@ -36,6 +38,29 @@ It combines a REST API, Sonic smart contract, and Hashed Time Lock (HTLC) paymen
         SERVER_SECRET_KEY=Your_Private_Key
         PORT=8000
     ```
+
+## Steps to Test the DAN contract
+
+- Build contract
+    ```bash
+        anchor build
+    ```
+
+- Run local solana validator
+
+    ```bash
+        solana-test-validator -r
+    ```
+
+- Open another terminal and run
+
+    ```bash
+        anchor test --skip-local-validator
+    ```
+
+### Expected output
+
+![alt text](contract-test.png)
 
 ## Steps to Test the APIs Manually
 

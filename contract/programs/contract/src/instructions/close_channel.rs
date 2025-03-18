@@ -9,16 +9,24 @@ use crate::states::PaymentChannel;
 pub fn process_close_channel(
     ctx: Context<CloseChannel>,
     channel_id: String,
-    secret: [u8; 32],
+    secret: String,
     final_balance: u64,
 ) -> Result<()> {
     let channel = &mut ctx.accounts.channel;
     let now = Clock::get()?.unix_timestamp as u64;
+
+    // Ensure timelock hasn't expired
     require!(now < channel.timelock, ErrorCode::TimelockExpired);
+
+    // Verify the secret matches the hashlock
+    let secret_bytes = secret.as_bytes();
+    let secret_hash = hash(&secret_bytes);
     require!(
-        hash(&secret) == channel.hashlock.into(),
+        secret_hash.to_bytes() == channel.hashlock,
         ErrorCode::InvalidSecret
     );
+
+    // Verify account ownership
     require!(
         ctx.accounts.channel_owner.key() == channel.owner,
         ErrorCode::WrongChannelOwner
@@ -32,45 +40,22 @@ pub fn process_close_channel(
         ErrorCode::WrongTemplateCreator
     );
 
-    let refund_balance = channel.balance - final_balance;
+    let total_lamports = channel.to_account_info().lamports();
+    require!(total_lamports >= final_balance, ErrorCode::InsufficientFunds);
+
+    let refund_balance = total_lamports - final_balance;
     let royalty = final_balance / 5; // 20% royalty to template creator
     let fee = final_balance - royalty;
 
-    // Transfer royalty to template creator
-    anchor_lang::system_program::transfer(
-        CpiContext::new(
-            ctx.accounts.system_program.to_account_info(),
-            anchor_lang::system_program::Transfer {
-                from: channel.to_account_info(),
-                to: ctx.accounts.template_creator.to_account_info(),
-            },
-        ),
-        royalty,
-    )?;
+    // Direct lamport transfers instead of CPI
+    **channel.to_account_info().try_borrow_mut_lamports()? -= royalty;
+    **ctx.accounts.template_creator.to_account_info().try_borrow_mut_lamports()? += royalty;
 
-    // Transfer remaining fee to channel creator
-    anchor_lang::system_program::transfer(
-        CpiContext::new(
-            ctx.accounts.system_program.to_account_info(),
-            anchor_lang::system_program::Transfer {
-                from: channel.to_account_info(),
-                to: ctx.accounts.channel_owner.to_account_info(),
-            },
-        ),
-        fee,
-    )?;
+    **channel.to_account_info().try_borrow_mut_lamports()? -= fee;
+    **ctx.accounts.channel_owner.to_account_info().try_borrow_mut_lamports()? += fee;
 
-    // Send refund to counter-party
-    anchor_lang::system_program::transfer(
-        CpiContext::new(
-            ctx.accounts.system_program.to_account_info(),
-            anchor_lang::system_program::Transfer {
-                from: channel.to_account_info(),
-                to: ctx.accounts.channel_counter_party.to_account_info(),
-            },
-        ),
-        refund_balance,
-    )?;
+    **channel.to_account_info().try_borrow_mut_lamports()? -= refund_balance;
+    **ctx.accounts.channel_counter_party.to_account_info().try_borrow_mut_lamports()? += refund_balance;
 
     emit!(ChannelClosed {
         channel_id,
@@ -90,19 +75,19 @@ pub struct CloseChannel<'info> {
     #[account(
         mut,
         seeds = [b"channel", channel.owner.as_ref(), channel_id.as_bytes()],
-        bump,
+        bump = channel.bump,
         close = caller
     )]
     pub channel: Account<'info, PaymentChannel>,
     #[account(mut)]
     pub caller: Signer<'info>,
-    /// CHECK: safe
+    /// CHECK: Validated in instruction
     #[account(mut)]
     pub template_creator: UncheckedAccount<'info>,
-    /// CHECK: safe
+    /// CHECK: Validated in instruction
     #[account(mut)]
     pub channel_owner: UncheckedAccount<'info>,
-    /// CHECK: safe
+    /// CHECK: Validated in instruction
     #[account(mut)]
     pub channel_counter_party: UncheckedAccount<'info>,
     pub system_program: Program<'info, System>,

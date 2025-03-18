@@ -13,6 +13,8 @@ url = "https://api.apr.dev"
 
 [provider]
 cluster = "Localnet"
+# cluster = "https://api.testnet.sonic.game"
+# wallet = "~/Dev/Playground/solana/DAN/contract/sonic-lend-original.json"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
