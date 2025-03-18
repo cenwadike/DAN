@@ -9,7 +9,7 @@ mod errors;
 mod events;
 mod states;
 
-declare_id!("FKehpJ8SZkr7XW4tysqoP7N6eLvpG3WASiXZa7JTjWUd");
+declare_id!("DuZVKU3hHtCQfmh3aTMF34kCkyxpg8D2PWBwrMUwVSL2");
 
 #[program]
 pub mod contract {

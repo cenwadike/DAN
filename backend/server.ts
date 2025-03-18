@@ -37,7 +37,7 @@ const logger = winston.createLogger({
 });
 
 // Solana and OpenAI setup
-const connection = new Connection(process.env.SOLANA_RPC_URL || "https://devnet.sonic.game", "confirmed");
+const connection = new Connection(process.env.RPC_URL || "https://api.testnet.sonic.game", "confirmed");
 const programId = new PublicKey(process.env.PROGRAM_ID!);
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const feeAccount = new PublicKey(process.env.FEE_ACCOUNT!);
@@ -480,7 +480,7 @@ app.get("/health", limiter, (_req: Request, res: Response) => {
 // Start server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, async () => {
-    console.log("Staring server")
+    logger.info("Staring server")
     logger.info(`DAN API running on http://localhost:${PORT}`);
     schedule.scheduleJob("0 */8 * * *", () => {
         logger.info("Running periodic channel closure");

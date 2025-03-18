@@ -28,10 +28,10 @@ It combines a REST API, Sonic smart contract, and Hashed Time Lock (HTLC) paymen
 
 ### Update the .env file
 
--   Ensure your .env file is configured with the required variables (e.g., SOLANA_RPC_URL, OPENAI_API_KEY, SERVER_SECRET_KEY, etc.).
+-   Ensure your .env file is configured with the required variables (e.g., RPC_URL, OPENAI_API_KEY, SERVER_SECRET_KEY, etc.).
 
     ```bash
-        SOLANA_RPC_URL=https://api.testnet.sonic.game/
+        RPC_URL=https://api.testnet.sonic.game/
         PROGRAM_ID=FKehpJ8SZkr7XW4tysqoP7N6eLvpG3WASiXZa7JTjWUd
         OPENAI_API_KEY=OpenAI_API_Key
         FEE_ACCOUNT=4GK6rjy5EuuLJ4Xo4fuVjtf7LabxVq2QSJDx3rpqMcHv

@@ -69,7 +69,7 @@ const logger = winston_1.default.createLogger({
     ],
 });
 // Solana and OpenAI setup
-const connection = new web3_js_1.Connection(process.env.SOLANA_RPC_URL || "https://devnet.sonic.game", "confirmed");
+const connection = new web3_js_1.Connection(process.env.RPC_URL || "https://devnet.sonic.game", "confirmed");
 const programId = new web3_js_1.PublicKey(process.env.PROGRAM_ID);
 const openai = new openai_1.OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 const feeAccount = new web3_js_1.PublicKey(process.env.FEE_ACCOUNT);
@@ -171,11 +171,10 @@ const closeChannels = async () => {
                 const template = await program.account.template.fetch(templatePda);
                 const channelPda = getPda("channel", caller, channelId);
                 await program.methods
-                    .closeChannel(channelId, [...Buffer.from(channel.secret, "hex")], channel.balance)
+                    .closeChannel(channelId, channel.secret, channel.balance)
                     .accounts({
                     channel: channelPda,
                     caller,
-                    feeAccount,
                     templateCreator: template.creator,
                     channelOwner: feeAccount,
                     channelCounterParty: new web3_js_1.PublicKey(channel.userId),
@@ -243,8 +242,8 @@ const pollBlockchain = async () => {
                         .accounts({
                         channel: getPda("channel", serverWallet.publicKey, channelId),
                         caller: serverWallet.publicKey,
+                        counterParty: new web3_js_1.PublicKey(userId),
                         template: getPda("template", serverWallet.publicKey, templateId),
-                        systemProgram: web3_js_1.SystemProgram.programId,
                     })
                         .rpc();
                     channels[channelId] = {
@@ -307,7 +306,6 @@ app.post("/create-npc-template", limiter, authenticate, async (req, res) => {
             .accounts({
             template: getPda("template", caller, templateId),
             caller,
-            systemProgram: web3_js_1.SystemProgram.programId,
         })
             .rpc();
         res.json({ transaction: txId });
@@ -355,7 +353,6 @@ app.post("/update-npc", limiter, authenticate, async (req, res) => {
                 state: statePda,
                 template: getPda("template", caller, templateId),
                 caller,
-                systemProgram: web3_js_1.SystemProgram.programId,
             })
                 .rpc();
             res.json({ transaction: txId });
@@ -421,12 +418,13 @@ app.post("/close-payment-channel", limiter, authenticate, async (req, res) => {
         const templatePda = getPda("template", caller, channel.templateId);
         const template = await program.account.template.fetch(templatePda);
         const txId = await program.methods
-            .closeChannel(channelId, [...Buffer.from(channel.secret, "hex")], channel.balance)
+            .closeChannel(channelId, channel.secret, channel.balance)
             .accounts({
             channel: getPda("channel", caller, channelId),
             caller,
-            feeAccount,
             templateCreator: template.creator,
+            channelOwner: feeAccount,
+            channelCounterParty: new web3_js_1.PublicKey(channel.userId),
         })
             .rpc();
         delete channels[channelId];

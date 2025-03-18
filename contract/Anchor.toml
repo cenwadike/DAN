@@ -6,16 +6,16 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-contract = "FKehpJ8SZkr7XW4tysqoP7N6eLvpG3WASiXZa7JTjWUd"
+contract = "DuZVKU3hHtCQfmh3aTMF34kCkyxpg8D2PWBwrMUwVSL2"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
-# cluster = "https://api.testnet.sonic.game"
-# wallet = "~/Dev/Playground/solana/DAN/contract/sonic-lend-original.json"
-wallet = "~/.config/solana/id.json"
+# cluster = "Localnet"
+cluster = "https://api.testnet.sonic.game"
+wallet = "~/Dev/Playground/solana/DAN/contract/sonic-lend-original.json"
+# wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
