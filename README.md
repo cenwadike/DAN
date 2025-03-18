@@ -1,7 +1,7 @@
 # Decentralized Adaptive NPC (DAN)
 
 DAN is a toolkit for game developers to integrate adaptive, AI-driven NPCs into Sonic SVM-based games. 
-It combines a REST API, Sonic smart contract, and Hashed Time Lock (HTLC) payment channels to deliver scalable NPC behavior and secure micro transactions.
+It combines AI driven REST APIs, Sonic smart contract, with Hashed Time Lock (HTLC) payment channels to deliver scalable NPC behavior and secure micro transactions.
 
 ## Features
 
@@ -16,6 +16,7 @@ It combines a REST API, Sonic smart contract, and Hashed Time Lock (HTLC) paymen
 - Others can create new NPC using template.
 - AI generate NPC dialogue and behavior from onchain memory and state.
 - In-game transactions using fast and secure payment channels.
+- 20% royalty on all fees go to template creators.
   
 ## How to test
 
